@@ -2,12 +2,14 @@
 
 # from utils import * # WTF where is this
 
+# CONTINUE NOTE: the mxnet imports aren't working for some reason. ALSO really need to figure out 3.1 correlate assets shit (what new data do I add and where do i get it from?)
+
 import time
 import numpy as np
 
-# mxnet stuff 
-# mxnet
-# mxnet
+from mxnet import nd, autograd, gluon
+from mxnet.gluon import nn, rnn
+import mxnet as mx
 
 import datetime
 import seaborn as sns
@@ -20,7 +22,7 @@ import math
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
 from sklearn.metrics import mean_squared_error, accuracy_score
 
-# xgboost
+import xgboost as xgb
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -156,5 +158,16 @@ plt.title('Figure 4: Components of Fourier transforms')
 plt.show()
 
 # 3.5 ARIMA as a feature
+# !pip install statsmodels
+from statsmodels.tsa.arima_model import ARIMA
+from pandas import DataFrame, datetime
 
-
+series = data_FT['Close']
+model = ARIMA(series, order=(5, 1, 0))
+model_fit = model.fit(disp=0)
+print(model_fit.summary())
+from pandas.plotting import autocorrelation_plot
+# from pandas.tools.plotting import autocorrelation_plot
+autocorrelation_plot(series)
+plt.figure(figsize=(10, 7), dpi=80)
+plt.show() 
